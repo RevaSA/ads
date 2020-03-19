@@ -1,12 +1,22 @@
 {
   "name": "ads",
   "version": "0.1.0",
+  "author": "Stanislav Reva",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RevaSA/ads.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RevaSA/ads/issues"
+  },
+  "homepage": "https://github.com/RevaSA/ads#readme",
   "dependencies": {
     "core-js": "^3.6.4",
     "vue": "^2.6.11",
