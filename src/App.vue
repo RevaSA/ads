@@ -14,7 +14,7 @@
             </v-list>
         </v-navigation-drawer>
 
-        <v-app-bar app dark>
+        <v-app-bar app>
             <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = !drawer"/>
             <v-toolbar-title>Ad application</v-toolbar-title>
             <v-spacer/>
@@ -63,5 +63,8 @@
                 },
             ],
         }),
+        created() {
+            this.$vuetify.theme.dark = true
+        },
     }
 </script>
