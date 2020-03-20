@@ -16,7 +16,9 @@
 
         <v-app-bar app>
             <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = !drawer"/>
-            <v-toolbar-title>Ad application</v-toolbar-title>
+            <v-toolbar-title>
+                <router-link to="/" class="v-toolbar__link-home">Ad application</router-link>
+            </v-toolbar-title>
             <v-spacer/>
             <v-toolbar-items class="hidden-sm-and-down">
                 <v-btn text v-for="link in navLinks" :key="link.title" :to="link.url">
@@ -68,3 +70,11 @@
         },
     }
 </script>
+
+<style lang="less">
+    .v-toolbar {
+        &__link-home {
+            text-decoration: none;
+        }
+    }
+</style>
