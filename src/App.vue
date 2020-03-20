@@ -7,7 +7,10 @@
             <v-toolbar-title>Ad application</v-toolbar-title>
             <v-spacer/>
             <v-toolbar-items>
-                <v-btn text>Link</v-btn>
+                <v-btn text>
+                    <v-icon left>mdi-link</v-icon>
+                    Link
+                </v-btn>
             </v-toolbar-items>
         </v-app-bar>
 
