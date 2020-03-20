@@ -1,10 +1,18 @@
 <template>
-    <div id="app">
-        <div id="nav">
-            <router-link to="/">Home</router-link> |
-            <router-link to="/about">About</router-link>
-        </div>
+    <v-app>
+        <v-navigation-drawer app temporary/>
 
-        <router-view/>
-    </div>
+        <v-app-bar app dark>
+            <v-app-bar-nav-icon/>
+            <v-toolbar-title>Ad application</v-toolbar-title>
+            <v-spacer/>
+            <v-toolbar-items>
+                <v-btn text>Link</v-btn>
+            </v-toolbar-items>
+        </v-app-bar>
+
+        <v-content>
+            <router-view/>
+        </v-content>
+    </v-app>
 </template>
