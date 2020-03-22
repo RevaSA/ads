@@ -3,11 +3,11 @@
         <v-row>
             <v-col>
                 <v-card>
-                    <v-img height="300" src="https://cdn.vuetifyjs.com/images/carousel/planet.jpg"/>
+                    <v-img height="300" :src="ad.imageSrc"/>
 
                     <v-card-text>
-                        <h1 class="text--primary">lorem</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, ipsa?</p>
+                        <h1 class="text--primary">{{ad.title}}</h1>
+                        <p>{{ad.description}}</p>
                     </v-card-text>
 
                     <v-card-actions>
@@ -23,6 +23,11 @@
 
 <script>
     export default {
-        data: () => ({}),
+        props: ['id'],
+        computed: {
+            ad() {
+                return this.$store.getters.adById(this.id)
+            },
+        },
     };
 </script>

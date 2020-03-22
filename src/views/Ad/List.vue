@@ -30,25 +30,10 @@
 
 <script>
     export default {
-        data() {
-            return {
-                ads: [
-                    {
-                        id: 0,
-                        title: 'First title',
-                        description: 'First description',
-                        promo: false,
-                        imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-                    },
-                    {
-                        id: 1,
-                        title: 'Second title',
-                        description: 'Second description',
-                        promo: true,
-                        imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-                    },
-                ],
-            }
+        computed: {
+            ads() {
+                return this.$store.getters.myAds
+            },
         },
     }
 </script>

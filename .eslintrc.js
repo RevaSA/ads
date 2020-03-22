@@ -18,6 +18,7 @@ module.exports = {
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'import/extensions': 'off',
         'max-len': 'off',
+        'no-param-reassign': 'off',
         'arrow-parens': ['error', 'as-needed'],
     },
     overrides: [

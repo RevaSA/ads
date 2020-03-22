@@ -68,9 +68,10 @@
                     title: this.title,
                     description: this.description,
                     promo: this.promo,
+                    imageSrc: 'https://vignette.wikia.nocookie.net/harrypotter/images/4/49/DementorConceptArt.jpg/revision/latest?cb=20150928152038',
                 }
 
-                console.log(ad)
+                this.$store.dispatch('createAd', ad)
             },
         },
     }
