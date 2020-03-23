@@ -11,7 +11,7 @@
                 <v-row>
                     <v-col>
                         <v-card-title class="pa-0">
-                            <h1 class="text--primary">Edit ad</h1>
+                            <h2>Edit ad</h2>
                         </v-card-title>
                     </v-col>
                 </v-row>

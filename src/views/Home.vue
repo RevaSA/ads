@@ -33,7 +33,7 @@
                         <v-card-actions>
                             <v-spacer/>
                             <v-btn text :to="'/ad/' + ad.id">Open</v-btn>
-                            <v-btn raised class="primary">Buy</v-btn>
+                            <buy-modal :ad="ad"/>
                         </v-card-actions>
                     </v-card>
                 </v-flex>
@@ -49,6 +49,8 @@
 </template>
 
 <script>
+    import BuyModal from '@/components/BuyModal'
+
     export default {
         computed: {
             ads() {
@@ -60,6 +62,9 @@
             loading() {
                 return this.$store.getters.loading
             },
+        },
+        components: {
+            BuyModal,
         },
     };
 </script>

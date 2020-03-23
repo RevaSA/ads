@@ -1,16 +1,13 @@
 <template>
-    <v-container>
+    <v-container v-if="!loading && orders.length !== 0">
         <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
                 <h1 class="mb-3">Orders</h1>
 
-                <v-list subheader two-line>
+                <v-list two-line subheader>
                     <v-list-item v-for="order in orders" :key="order.id">
                         <v-list-item-action>
-                            <v-checkbox
-                                v-model="order.done"
-                                @change="onChange(order)"
-                            ></v-checkbox>
+                            <v-checkbox v-model="order.done" @change="onChangeMark(order)"/>
                         </v-list-item-action>
 
                         <v-list-item-content>
@@ -19,41 +16,45 @@
                         </v-list-item-content>
 
                         <v-list-item-action>
-                            <v-btn :to="'/ad/' + order.adId" class="primary">Open</v-btn>
+                            <v-btn class="primary" :to="'/ad/' + order.adId">Open</v-btn>
                         </v-list-item-action>
                     </v-list-item>
                 </v-list>
             </v-flex>
         </v-layout>
     </v-container>
+
+    <v-container v-else-if="!loading" fill-height>
+        <v-row align="center" justify="center" no-gutters>
+            <h1>You have no orders</h1>
+        </v-row>
+    </v-container>
+
+    <v-container v-else fill-height>
+        <v-row align="center" justify="center" no-gutters>
+            <v-progress-circular :size="100" :width="4" indeterminate color="purple"/>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
     export default {
-        data() {
-            return {
-                orders: [
-                    {
-                        id: '0',
-                        name: 'Stanislav',
-                        phone: '8-921-121-12-12',
-                        adId: '1',
-                        done: false,
-                    },
-                    {
-                        id: '1',
-                        name: 'Stanislav',
-                        phone: '8-921-121-12-12',
-                        adId: '2',
-                        done: true,
-                    },
-                ],
-            }
+        computed: {
+            orders() {
+                return this.$store.getters.orders
+            },
+            loading() {
+                return this.$store.getters.loading
+            },
         },
         methods: {
-            onChange(order) {
-                console.dir(order)
+            onChangeMark(order) {
+                this.$store.dispatch('changeMarkOrder', order)
+                    .catch(() => {})
             },
+        },
+        created() {
+            this.$store.dispatch('fetchOrders')
         },
     }
 </script>

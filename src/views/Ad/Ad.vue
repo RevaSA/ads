@@ -12,8 +12,8 @@
 
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <addEditAdModal v-if="isOwner" :ad="ad"></addEditAdModal>
-                        <v-btn class="primary">Buy</v-btn>
+                        <add-edit-ad-modal v-if="isOwner" :ad="ad"/>
+                        <buy-modal :ad="ad"/>
                     </v-card-actions>
                 </v-card>
             </v-col>
@@ -29,13 +29,13 @@
 
 <script>
     import EditAdModal from '@/components/ad/EditAdModal'
+    import BuyModal from '@/components/BuyModal'
 
     export default {
         props: ['id'],
         computed: {
             ad() {
-                const { id } = this
-                return this.$store.getters.adById(id)
+                return this.$store.getters.adById(this.id)
             },
             loading() {
                 return this.$store.getters.loading
@@ -46,6 +46,7 @@
         },
         components: {
             addEditAdModal: EditAdModal,
+            BuyModal,
         },
     }
 </script>
