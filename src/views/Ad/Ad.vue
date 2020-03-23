@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container v-if="!loading">
         <v-row>
             <v-col>
                 <v-card>
@@ -12,22 +12,40 @@
 
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn>Edit</v-btn>
+                        <addEditAdModal v-if="isOwner" :ad="ad"></addEditAdModal>
                         <v-btn class="primary">Buy</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-col>
         </v-row>
     </v-container>
+
+    <v-container v-else fill-height>
+        <v-row align="center" justify="center" no-gutters>
+            <v-progress-circular :size="100" :width="4" indeterminate color="purple"/>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
+    import EditAdModal from '@/components/ad/EditAdModal'
+
     export default {
         props: ['id'],
         computed: {
             ad() {
-                return this.$store.getters.adById(this.id)
+                const { id } = this
+                return this.$store.getters.adById(id)
+            },
+            loading() {
+                return this.$store.getters.loading
+            },
+            isOwner() {
+                return this.ad.ownerId === this.$store.getters.user.id
             },
         },
-    };
+        components: {
+            addEditAdModal: EditAdModal,
+        },
+    }
 </script>

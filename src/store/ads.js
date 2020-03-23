@@ -11,8 +11,8 @@ export default {
         promoAds(state) {
             return state.ads.filter(ad => ad.promo)
         },
-        myAds(state) {
-            return state.ads
+        myAds(state, getters) {
+            return state.ads.filter(ad => ad.ownerId === getters.user.id)
         },
         adById(state) {
             return id => state.ads.find(ad => ad.id === id)
@@ -24,6 +24,12 @@ export default {
         },
         loadAds(state, payload) {
             state.ads = payload
+        },
+        updateAd(state, { title, description, id }) {
+            const ad = state.ads.find(a => a.id === id)
+
+            ad.title = title
+            ad.description = description
         },
     },
     actions: {
@@ -63,6 +69,24 @@ export default {
                 const ads = fbVal.val()
 
                 commit('loadAds', Object.keys(ads).map(key => Object.assign(ads[key], { id: key })))
+                commit('setLoading', false)
+            } catch (error) {
+                commit('setError', error.message)
+                commit('setLoading', false)
+                throw error
+            }
+        },
+        async updateAd({ commit }, { title, description, id }) {
+            commit('clearError')
+            commit('setLoading', true)
+
+            try {
+                await fb.database().ref('ads').child(id).update({
+                    title, description,
+                })
+                commit('updateAd', {
+                    title, description, id,
+                })
                 commit('setLoading', false)
             } catch (error) {
                 commit('setError', error.message)
