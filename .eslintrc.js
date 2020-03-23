@@ -19,6 +19,7 @@ module.exports = {
         'import/extensions': 'off',
         'max-len': 'off',
         'no-param-reassign': 'off',
+        'prefer-destructuring': 'off',
         'arrow-parens': ['error', 'as-needed'],
     },
     overrides: [
