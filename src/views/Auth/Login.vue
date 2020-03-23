@@ -69,10 +69,8 @@
                 }
 
                 this.$store.dispatch('loginUser', user)
-                    .then(() => {
-                        this.$router.push('/')
-                    })
-                    .catch(err => console.log('catch', err))
+                    .then(() => this.$router.push('/'))
+                    .catch(() => {})
             },
         },
     };

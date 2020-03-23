@@ -30,6 +30,17 @@
         <v-content>
             <router-view/>
         </v-content>
+
+        <template v-if="error">
+            <v-snackbar
+                :timeout="5000"
+                :multi-line="true"
+                :value="true"
+            >
+                {{ error }}
+                <v-btn @click="closeSnackbar">Close</v-btn>
+            </v-snackbar>
+        </template>
     </v-app>
 </template>
 
@@ -65,6 +76,16 @@
                 },
             ],
         }),
+        computed: {
+            error() {
+                return this.$store.getters.error
+            },
+        },
+        methods: {
+            closeSnackbar() {
+                this.$store.dispatch('clearError')
+            },
+        },
         created() {
             this.$vuetify.theme.dark = true
         },
