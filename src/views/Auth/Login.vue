@@ -29,7 +29,7 @@
 
                             <v-row no-gutters>
                                 <v-spacer/>
-                                <v-btn @click="onSubmit" :disabled="!valid">Login</v-btn>
+                                <v-btn @click="onSubmit" :loading="loading" :disabled="!valid || loading">Login</v-btn>
                             </v-row>
                         </v-form>
                     </v-card-text>
@@ -54,6 +54,11 @@
                 v => (v && v.length >= 6) || 'Password must be equals or more than 6 characters',
             ],
         }),
+        computed: {
+            loading() {
+                return this.$store.getters.loading
+            },
+        },
         methods: {
             onSubmit() {
                 if (!this.$refs.form.validate()) return
@@ -63,7 +68,11 @@
                     password: this.password,
                 }
 
-                console.log(user)
+                this.$store.dispatch('loginUser', user)
+                    .then(() => {
+                        this.$router.push('/')
+                    })
+                    .catch(err => console.log('catch', err))
             },
         },
     };
