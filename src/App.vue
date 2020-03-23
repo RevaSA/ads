@@ -117,9 +117,6 @@
                 this.$store.dispatch('clearError')
             },
         },
-        created() {
-            this.$vuetify.theme.dark = true
-        },
     }
 </script>
 
