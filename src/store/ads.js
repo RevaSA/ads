@@ -1,3 +1,5 @@
+import * as fb from 'firebase';
+
 export default {
     state: {
         ads: [
@@ -35,18 +37,35 @@ export default {
             return state.ads
         },
         adById(state) {
-            return id => state.ads.find(ad => ad.id === Number(id))
+            return id => state.ads.find(ad => ad.id === id)
         },
     },
     mutations: {
         createAd(state, payload) {
-            payload.id = Math.max.apply(null, state.ads.map(ad => ad.id)) + 1
             state.ads.push(payload)
         },
     },
     actions: {
-        createAd({ commit }, payload) {
-            commit('createAd', payload)
+        async createAd({ commit, getters }, payload) {
+            commit('clearError')
+            commit('setLoading', true)
+
+            try {
+                const ad = await fb.database().ref('ads').push({
+                    ...payload,
+                    ownerId: getters.user.id,
+                })
+
+                commit('setLoading', false)
+                commit('createAd', {
+                    ...payload,
+                    id: ad.key,
+                })
+            } catch (err) {
+                commit('setLoading', false)
+                commit('setError', err.message)
+                throw err
+            }
         },
     },
 }

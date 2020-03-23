@@ -43,7 +43,7 @@
                 </v-row>
 
                 <v-row no-gutters>
-                    <v-btn class="ml-auto" :disabled="!valid" @click="createAd">Create ad</v-btn>
+                    <v-btn class="ml-auto" @click="createAd" :loading="loading" :disabled="!valid || loading">Create ad</v-btn>
                 </v-row>
             </v-col>
         </v-row>
@@ -60,6 +60,11 @@
                 promo: false,
             }
         },
+        computed: {
+            loading() {
+                return this.$store.getters.loading
+            },
+        },
         methods: {
             createAd() {
                 if (!this.$refs.form.validate()) return
@@ -72,6 +77,8 @@
                 }
 
                 this.$store.dispatch('createAd', ad)
+                    .then(() => this.$router.push('/list'))
+                    .catch(() => {})
             },
         },
     }
