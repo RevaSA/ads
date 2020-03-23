@@ -28,19 +28,25 @@ export default {
     },
     actions: {
         async createAd({ commit, getters }, payload) {
+            const { image } = payload
+            const imageExt = image.name.slice(image.name.lastIndexOf('.'))
+
+            delete payload.image
             commit('clearError')
             commit('setLoading', true)
 
             try {
-                const ad = await fb.database().ref('ads').push({
-                    ...payload,
-                    ownerId: getters.user.id,
-                })
+                const newAd = Object.assign(payload, { ownerId: getters.user.id })
+                const ad = await fb.database().ref('ads').push(newAd)
+                const fileData = await fb.storage().ref(`ads/${ad.key}.${imageExt}`).put(image)
+                const imageSrc = await fileData.ref.getDownloadURL().then(value => value)
 
+                await fb.database().ref('ads').child(ad.key).update({ imageSrc })
                 commit('setLoading', false)
                 commit('createAd', {
                     ...payload,
                     id: ad.key,
+                    imageSrc,
                 })
             } catch (err) {
                 commit('setLoading', false)

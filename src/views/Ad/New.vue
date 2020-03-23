@@ -25,16 +25,18 @@
 
                 <v-row class="mb-3">
                     <v-col>
-                        <v-btn>
+                        <v-btn @click="triggerUpload">
                             Upload
                             <v-icon right>mdi-cloud-upload</v-icon>
                         </v-btn>
+
+                        <input type="file" accept="image/*" ref="fileInput" @change="onFileChange">
                     </v-col>
                 </v-row>
 
-                <v-row>
+                <v-row v-if="imageSrc">
                     <v-col>
-                        <img src="" height="100" alt="">
+                        <img :src="imageSrc" height="100">
                     </v-col>
                 </v-row>
 
@@ -43,7 +45,7 @@
                 </v-row>
 
                 <v-row no-gutters>
-                    <v-btn class="ml-auto" @click="createAd" :loading="loading" :disabled="!valid || loading">Create ad</v-btn>
+                    <v-btn class="ml-auto" @click="createAd" :loading="loading" :disabled="!valid || !image || loading">Create ad</v-btn>
                 </v-row>
             </v-col>
         </v-row>
@@ -58,6 +60,8 @@
                 title: '',
                 description: '',
                 promo: false,
+                image: null,
+                imageSrc: '',
             }
         },
         computed: {
@@ -67,19 +71,36 @@
         },
         methods: {
             createAd() {
-                if (!this.$refs.form.validate()) return
+                if (!this.$refs.form.validate() || !this.image) return
 
                 const ad = {
                     title: this.title,
                     description: this.description,
                     promo: this.promo,
-                    imageSrc: 'https://vignette.wikia.nocookie.net/harrypotter/images/4/49/DementorConceptArt.jpg/revision/latest?cb=20150928152038',
+                    image: this.image,
                 }
 
                 this.$store.dispatch('createAd', ad)
                     .then(() => this.$router.push('/list'))
                     .catch(() => {})
             },
+            triggerUpload() {
+                this.$refs.fileInput.click()
+            },
+            onFileChange(event) {
+                const file = event.target.files[0]
+                const reader = new FileReader()
+
+                reader.onload = () => { this.imageSrc = reader.result }
+                reader.readAsDataURL(file)
+                this.image = file
+            },
         },
     }
 </script>
+
+<style scoped>
+    input[type=file] {
+        display: none;
+    }
+</style>
