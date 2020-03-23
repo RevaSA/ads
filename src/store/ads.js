@@ -2,29 +2,7 @@ import * as fb from 'firebase';
 
 export default {
     state: {
-        ads: [
-            {
-                id: 0,
-                title: 'First title',
-                description: 'First description',
-                promo: false,
-                imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-            },
-            {
-                id: 1,
-                title: 'Second title',
-                description: 'Second description',
-                promo: true,
-                imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-            },
-            {
-                id: 2,
-                title: 'Third title',
-                description: 'Third description',
-                promo: true,
-                imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-            },
-        ],
+        ads: [],
     },
     getters: {
         ads(state) {
@@ -43,6 +21,9 @@ export default {
     mutations: {
         createAd(state, payload) {
             state.ads.push(payload)
+        },
+        loadAds(state, payload) {
+            state.ads = payload
         },
     },
     actions: {
@@ -65,6 +46,22 @@ export default {
                 commit('setLoading', false)
                 commit('setError', err.message)
                 throw err
+            }
+        },
+        async fetchAds({ commit }) {
+            commit('clearError')
+            commit('setLoading', true)
+
+            try {
+                const fbVal = await fb.database().ref('ads').once('value')
+                const ads = fbVal.val()
+
+                commit('loadAds', Object.keys(ads).map(key => Object.assign(ads[key], { id: key })))
+                commit('setLoading', false)
+            } catch (error) {
+                commit('setError', error.message)
+                commit('setLoading', false)
+                throw error
             }
         },
     },

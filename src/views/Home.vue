@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="!loading">
         <v-container fluid pa-0>
             <v-layout row>
                 <v-flex xs12>
@@ -40,6 +40,12 @@
             </v-layout>
         </v-container>
     </div>
+
+    <v-container v-else fill-height>
+        <v-row align="center" justify="center" no-gutters>
+            <v-progress-circular :size="100" :width="4" indeterminate color="purple"/>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
@@ -50,6 +56,9 @@
             },
             promoAds() {
                 return this.$store.getters.promoAds
+            },
+            loading() {
+                return this.$store.getters.loading
             },
         },
     };
