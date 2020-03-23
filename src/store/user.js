@@ -14,6 +14,9 @@ export default {
         user(state) {
             return state.user
         },
+        isUserLogged(state) {
+            return state.user !== null
+        },
     },
     mutations: {
         setUser(state, payload) {
@@ -50,6 +53,13 @@ export default {
                 commit('setError', err.message)
                 throw err
             }
+        },
+        autoLoginUser({ commit }, payload) {
+            commit('setUser', new User(payload.uid))
+        },
+        logoutUser({ commit }) {
+            fb.auth().signOut()
+            commit('setUser', null)
         },
     },
 }
