@@ -1,8 +1,8 @@
 <template>
     <div v-if="!loading">
         <v-container fluid pa-0>
-            <v-layout row>
-                <v-flex xs12>
+            <v-row no-gutters>
+                <v-col>
                     <v-carousel>
                         <v-carousel-item
                             v-for="ad of promoAds"
@@ -14,13 +14,13 @@
                             </div>
                         </v-carousel-item>
                     </v-carousel>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
         </v-container>
 
-        <v-container grid-list-lg>
-            <v-layout row wrap>
-                <v-flex xs12 sm6 md4 v-for="ad of ads" :key="ad.id">
+        <v-container>
+            <v-row>
+                <v-col sm="6" md="4" v-for="ad of ads" :key="ad.id">
                     <v-card>
                         <v-img height="200" :src="ad.imageSrc"/>
                         <v-card-title>
@@ -36,8 +36,8 @@
                             <buy-modal :ad="ad"/>
                         </v-card-actions>
                     </v-card>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
         </v-container>
     </div>
 
