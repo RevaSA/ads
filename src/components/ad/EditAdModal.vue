@@ -1,7 +1,7 @@
 <template>
     <v-dialog width="400px" v-model="modal">
         <template v-slot:activator="{ on }">
-            <v-btn text class="warning" v-on="on">
+            <v-btn text v-on="on">
                 Edit
             </v-btn>
         </template>
@@ -32,7 +32,7 @@
                         <v-card-actions class="pa-0">
                             <v-spacer></v-spacer>
                             <v-btn text @click="onCancel">Cancel</v-btn>
-                            <v-btn text class="success" @click="onSave">Save</v-btn>
+                            <v-btn class="primary" @click="onSave">Save</v-btn>
                         </v-card-actions>
                     </v-col>
                 </v-row>
